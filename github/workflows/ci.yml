@@ -1,0 +1,12 @@
+name: Run on Commit 
+
+on: push: 
+
+jobs:
+  build: 
+    runs_on: ubuntu-latest 
+    steps:
+     -name: installing Pyton
+      uses: actions/setup-pyton@v4
+      with:
+          python-version: "3.10"
