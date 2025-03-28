@@ -1,0 +1,43 @@
+name: Deploy to Docker
+
+on: 
+  push:
+    branches:
+      - main: 
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.Simona8098}}" | docker login -u "${{ secrets.dou8098}}" --password-stdin
+
+      - name: Compilation and publication of image
+        run: | 
+          docker build -t username/my-app:latest .
+          docker push username/my-app:latest
+
+deploy:
+  needs: build_and_push
+  runs-on: obuntu-latest
+
+  steps:
+    - name: Connection to server
+      uses: appleboy/ssh-action@v.0.1.7
+      with:
+        host: ${{ secrets.192.168.0.255 }}
+        username: ${{ secrets.doudou }}
+
+
+
+
+
+
+
+
+
+       
