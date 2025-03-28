@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Login to Docker Hub
-        run: echo "${{ secrets.Simona8098}}" | docker login -u "${{ secrets.dou8098}}" --password-stdin
+        run: echo "${{ secrets.DOCKER_PASSWORD}}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Compilation and publication of image
         run: | 
@@ -29,10 +29,13 @@ deploy:
     - name: Connection to server
       uses: appleboy/ssh-action@v.0.1.7
       with:
-        host: ${{ secrets.192.168.0.255 }}
-        username: ${{ secrets.doudou }}
-
-
+        host: ${{ secrets.SERVER_IP }}
+        username: ${{ secrets.SERVER_USER }}
+        password: ${{ secrets.SERVER_PASSWORD }}
+        script: | 
+          docker pull username/my-app:latest
+          docker stop my-app || true
+          docker run -d -p 8000:8000 --name my-app username/my-app:latest
 
 
 
